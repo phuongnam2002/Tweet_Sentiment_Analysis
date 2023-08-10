@@ -1,4 +1,13 @@
 # Tweet-Sentiment-Analysis
 Link: [Kaggle](https://www.kaggle.com/competitions/tweet-sentiment-extraction/overview)
 
-Run Train: bash train.sh
+Training Model:
+
+```script
+bash train.sh
+```
+Evaluate Model:
+
+```script
+bash test.sh
+```
