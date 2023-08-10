@@ -20,7 +20,7 @@ class Trainer:
         self.test_dataset = test_dataset
 
         self.labels = load_data(args.file_train, col=args.col_label)
-
+        self.softmax = nn.Softmax()
         self.model = model
 
     def train(self):
@@ -89,7 +89,7 @@ class Trainer:
                 logits = self.model(**inputs).logits
                 logits = torch.argmax(logits, dim=1).float()
 
-                loss = criterion(logits, labels)
+                loss = criterion(self.softmax(logits), self.softmax(labels))
                 loss.requires_grad_(True)
 
                 print(f"Train Loss: {loss.item()}")
@@ -108,6 +108,7 @@ class Trainer:
                     self.model.zero_grad()
                     optimizer.zero_grad()
 
+                    self.eval()
                     early_stopping(loss.item(), self.model, self.args)
                     if early_stopping.early_stop:
                         print("Early Stopping")
